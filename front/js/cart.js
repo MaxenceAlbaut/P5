@@ -1,3 +1,4 @@
+// Calcul du prix et de la qte total puis affichage
 function totalPrice(cart){
 
     let total = [0, 0]
@@ -10,10 +11,11 @@ function totalPrice(cart){
     document.getElementById('totalQuantity').innerHTML = total[1]
 }
 
+// Affiche le tableau recapitulatif du panier et total qte/prix
 function displayCart(cart){
     
     let cartSection = document.getElementById('cart__items')
-
+    // Crer et insere les elements dans la section
     for (let i = 0 ; i < cart.length ; i++){
         let newItem = document.createElement('article')
         cartSection.appendChild(newItem)
@@ -38,10 +40,10 @@ function displayCart(cart){
                                     </div>
                                 </div>`
     }
-
-    totalPrice(cart)
+    totalPrice(cart) // Calcul et affichage du prix total
 }
 
+// Supprime tous les elements du tableau recapitulatif puis les re affiche
 function refreshCart(cart){
     
     let cartItems = document.getElementsByTagName('article')
@@ -51,6 +53,7 @@ function refreshCart(cart){
     displayCart(cart)
 }
 
+// Ecoute le changement de quantité des produits, modifie l'affichage HTML et le locastorage si changement
 function listenCartQuantity(cart){
 
     let itemsQuantity = document.getElementsByClassName('itemQuantity')
@@ -67,21 +70,29 @@ function listenCartQuantity(cart){
     }
 }
 
+// Ecoute le click des boutons de suppression d'un produit
 function listenCartDelete(cart){
 
     let itemsDeleteButton = document.getElementsByClassName('deleteItem')
 
     for (let i = 0 ; i < cart.length ; i++){
         
-        itemsDeleteButton[i].addEventListener('click', function(){
+        itemsDeleteButton[i].addEventListener('click', function(){ // Si supression
 
+            // Suppression de l'element HTML
             itemsDeleteButton[i].closest('article').remove()
+            // Suppression de l'element dans le panier
             cart.splice(i, 1)
             
+            // Rafraichissement du tableau recapitulatif
             refreshCart(cart)
+
+            // Re assignations des listeners pour la quantité sur le nouveau panier
             listenCartQuantity(cart)
+
+            // Update localstorage
             localStorage.setItem("product", JSON.stringify(cart))
-            return listenCartDelete(cart)
+            return listenCartDelete(cart) // Re assignations des listeners pour les boutons de supression sur le nouveau panier
         })
     }
 }
@@ -89,8 +100,9 @@ function listenCartDelete(cart){
 function main(){
 
     let cart = JSON.parse(localStorage.getItem('product'))
-    displayCart(cart)
+    displayCart(cart) // Affiche le recapitulatif du panier a partir du localstorage
 
+    // Ecoute les modifications (changement de qte et suppression)
     listenCartQuantity(cart)
     listenCartDelete(cart)
 }

@@ -20,11 +20,8 @@ console.log("hello world")
 // Ajoute les articles a la page d'accueil dans la section qui a pour id 'items' ////////////
 function addArticles(array, id){
     for (let i = 0 ; i < array.length ; i++){
-        // CRER une balise <a> qui a pour lien la page product.html + array[i].id dans url
-        // Dans <a> : CRER une balise <article>
-        // Dans <article> : CRER une balise <img src=array[i].iurl alt=array[i].atlTxt>
-        //                  CRER une balise <h3> contenant array[i].name
-        //                  CRER une balise <p> contenant array[i].desc
+        
+        // Creation et insertion des elements a intégrer dans le HTML
 
         // Creation de <a>
         let newATag = document.createElement('a')
