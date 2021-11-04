@@ -26,7 +26,7 @@ function displayCart(cart){
                                     </div>
                                     <div class="cart__item__content">
                                         <div class="cart__item__content__titlePrice">
-                                            <h2>${cart[i].name}</h2>
+                                            <h2>${cart[i].name} (${cart[i].color})</h2>
                                             <p>${cart[i].price} €</p>
                                         </div>
                                     <div class="cart__item__content__settings">
@@ -100,11 +100,14 @@ function listenCartDelete(cart){
 function main(){
 
     let cart = JSON.parse(localStorage.getItem('product'))
-    displayCart(cart) // Affiche le recapitulatif du panier a partir du localstorage
+    if (cart){
+        displayCart(cart) // Affiche le recapitulatif du panier a partir du localstorage
 
-    // Ecoute les modifications (changement de qte et suppression)
-    listenCartQuantity(cart)
-    listenCartDelete(cart)
+        // Ecoute les modifications (changement de qte et suppression)
+        listenCartQuantity(cart)
+        listenCartDelete(cart)
+    }
+   
 }
 
 main()
