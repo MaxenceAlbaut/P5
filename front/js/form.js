@@ -30,6 +30,9 @@ document.getElementById('order').addEventListener('click', function (event){
 
     // console.log(JSON.stringify({contact, products}))
 
+    event.preventDefault()
+    event.stopPropagation()
+
     fetch("http://localhost:3000/api/products/order", {
         method: "POST",
         body: JSON.stringify({contact, products}),
@@ -38,14 +41,17 @@ document.getElementById('order').addEventListener('click', function (event){
             'Content-Type': 'application/json'
         },
     })
-    .then(function(res){
-        console.log(res)
-        localStorage.clear() // Suppression des articles dans le panier
-        window.location.href = "./confirmation.html?" + res.data.orderId // Redirection vers la page de confirmation
-    })
-    .catch(function(err){
-        console.log(err)
-    });
+        .then(function(res){
+            console.log(res)
+            return res.json()
+        })
+            .then(function (data){
+                //localStorage.clear() // Suppression des articles dans le panier
+                window.location.href = "./confirmation.html?" + data.orderId // Redirection vers la page de confirmation
+            })
+                .catch(function(err){
+                    console.log(err)
+                });
 })
 
 
