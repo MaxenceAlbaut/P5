@@ -125,17 +125,23 @@ function main(articleArray){
     // ECOUTE l'evenement 'click' sur <button> id='addToCart'
     let button = document.getElementById('addToCart')
     button.addEventListener('click', function(event){
-        // Creation de l'ojbet 'selectedProduct' qui sera ajouter au panier
-        let selectedProduct = {
-            id : productId,
-            color: selectedColor,
-            quantity: selectedQuantity,
-            price: pageProduct.price,
-            imageUrl: pageProduct.imageUrl,
-            alt: pageProduct.altTxt,
-            name: pageProduct.name
-        };
-        add2Cart(selectedProduct) // Ajout du produit dans le panier (localstorage)
+        if (selectedColor && selectedQuantity){
+            // Creation de l'ojbet 'selectedProduct' qui sera ajouter au panier
+            let selectedProduct = {
+                id : productId,
+                color: selectedColor,
+                quantity: selectedQuantity,
+                price: pageProduct.price,
+                imageUrl: pageProduct.imageUrl,
+                alt: pageProduct.altTxt,
+                name: pageProduct.name
+            };
+            add2Cart(selectedProduct) // Ajout du produit dans le panier (localstorage)
+        } else {
+            window.alert("Veuillez selectionner une couleure ainsi qu'une quantité")
+        }
+
+        
     })
 }
 
