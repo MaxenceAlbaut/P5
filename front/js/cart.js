@@ -97,10 +97,27 @@ function listenCartDelete(cart){
     }
 }
 
+// Ordonne un tableau d'objet ayant une propriété 'id' en fonction de cette dernière
+function sortCart(array){
+
+    array.sort(function(a, b){
+        
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+    });
+}
+
 function main(){
 
     let cart = JSON.parse(localStorage.getItem('product'))
+
     if (cart){
+        sortCart(cart) // Ordonne le panier
         displayCart(cart) // Affiche le recapitulatif du panier a partir du localstorage
 
         // Ecoute les modifications (changement de qte et suppression)
