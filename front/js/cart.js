@@ -63,10 +63,12 @@ function listenCartQuantity(cart){
         //Listens to a change of quantity
         itemsQuantity[i].addEventListener('change', function (event){
             if (event.target.value <= 0){
-                cart[i].quantity = 0
-            } else {
-                cart[i].quantity = event.target.value
+                event.target.value = 0
+            } else if (event.target.value > 100){
+                event.target.value = 100
             }
+            cart[i].quantity = event.target.value
+
             document.querySelectorAll('.cart__item__content__settings__quantity p')[i].innerHTML = `Qté : ${cart[i].quantity}`
             totalPrice(cart)
             localStorage.setItem("product", JSON.stringify(cart))
