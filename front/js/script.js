@@ -15,8 +15,6 @@ fetch('http://localhost:3000/api/products/')
         
 */
 
-console.log("hello world")
-
 // Ajoute les articles a la page d'accueil dans la section qui a pour id 'items' ////////////
 function addArticles(array, id){
     for (let i = 0 ; i < array.length ; i++){
@@ -55,6 +53,15 @@ function addArticles(array, id){
 
 
 // Récupération des données et appelle de la fonction addArticles() en lui passant en parametre le retour de la requete
+
 fetch('http://localhost:3000/api/products/')
-    .then(res => res.json())
+    .then(function (res){
+        if (res.ok){
+            return res.json()
+        }
+    })
     .then(data => addArticles(data, 'items'))
+    .catch(function (e){
+        window.alert(e)
+    }) 
+
