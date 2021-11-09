@@ -1,19 +1,3 @@
-/*
-
-fetch('http://localhost:3000/api/products/')
-    .then(response => response.json())
-    .then(data => console.log(data))
-
-**/ /* CODE EQUIVALENT : */ /*
-
-fetch('http://localhost:3000/api/products/')
-    .then(function (response) {
-        return response.json()
-        }).then(function (data) {
-            console.log(data)
-        })
-        
-*/
 
 // Ajoute les articles a la page d'accueil dans la section qui a pour id 'items' ////////////
 function addArticles(array, id){
@@ -51,9 +35,7 @@ function addArticles(array, id){
     }
 }
 
-
 // Récupération des données et appelle de la fonction addArticles() en lui passant en parametre le retour de la requete
-
 fetch('http://localhost:3000/api/products/')
     .then(function (res){
         if (res.ok){

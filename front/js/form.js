@@ -96,7 +96,6 @@ document.getElementById('order').addEventListener('click', function (event){
             },
         })
             .then(function(res){
-                console.log(res)
                 return res.json()
             })
                 .then(function (data){
