@@ -1,16 +1,6 @@
 let selectedColor = undefined
 let selectedQuantity = undefined
 
-// Cherche le produit en comparant l'id de l'url (pId) aux _id des elements de array[]
-function findProduct(array, pId){
-
-    for (let j = 0 ; j < array.length ; j++){
-        if (array[j]._id == pId){
-           return array[j] // Renvoi le produit correspondant a l'url
-        }
-    }
-}
-
 // Crée le code HTML des options de couleurs qui sera inséré par displayProduct() avec innerHTML
 function createColorOptions (array){
     let htmlTxt = ""
@@ -95,17 +85,11 @@ function add2Cart(product){
     }
 }
 
-function main(articleArray){
+function main(article){
 
-    // Recupere l'id du produit depuis l'url
-    let productUrl = window.location.search
-    let urlParams = new URLSearchParams(productUrl)
-    let productId = urlParams.get('id')
-
-    // Affiche le produit trouvé grace a son id
-    let pageProduct = findProduct(articleArray, productId)
-    let productColors = createColorOptions(pageProduct)
-    displayProduct(pageProduct, productColors)
+    // Affiche le produit renvoyé par l'api
+    let productColors = createColorOptions(article)
+    displayProduct(article, productColors)
 
 
     // ECOUTE l'evenement 'change' sur le <select> id='colors'
@@ -118,12 +102,11 @@ function main(articleArray){
     let quantitySelector = document.getElementById('quantity')
     quantitySelector.addEventListener('change', function(event){
         if (event.target.value <= 0){
-            selectedQuantity = 0
+            event.target.value = 0
         } else if (event.target.value > 100){
-            selectedQuantity = 100
-        } else {
-            selectedQuantity = event.target.value
+            event.target.value = 100
         }
+        selectedQuantity = event.target.value
     })
 
     // ECOUTE l'evenement 'click' sur <button> id='addToCart'
@@ -135,10 +118,10 @@ function main(articleArray){
                 id : productId,
                 color: selectedColor,
                 quantity: selectedQuantity,
-                price: pageProduct.price,
-                imageUrl: pageProduct.imageUrl,
-                alt: pageProduct.altTxt,
-                name: pageProduct.name
+                price: article.price,
+                imageUrl: article.imageUrl,
+                alt: article.altTxt,
+                name: article.name
             };
             add2Cart(selectedProduct) // Ajout du produit dans le panier (localstorage)
         } else {
@@ -147,12 +130,22 @@ function main(articleArray){
     })
 }
 
+
+// Recupere l'id du produit depuis l'url
+let productUrl = window.location.search
+let urlParams = new URLSearchParams(productUrl)
+let productId = urlParams.get('id')
+
+let fetchUrl = 'http://localhost:3000/api/products/' + productId
+
 // Récupération des données et appelle la fonction main() en lui passant en parametre le retour de la requete
-fetch('http://localhost:3000/api/products/')
-    .then(res => res.json())
+fetch(fetchUrl)
+    .then(function (res){
+        if (res.ok){
+            return res.json()
+        }
+    })
     .then(data => main(data))
-
-    //fetch.then().then().catch()
-
-    // if (res.ok){
-        //...
+    .catch(function (e){
+        window.alert(e)
+    })
