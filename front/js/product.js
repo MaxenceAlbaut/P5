@@ -97,8 +97,6 @@ function add2Cart(product){
 
 function main(articleArray){
 
-    console.log("main")
-
     // Recupere l'id du produit depuis l'url
     let productUrl = window.location.search
     let urlParams = new URLSearchParams(productUrl)
@@ -119,7 +117,11 @@ function main(articleArray){
     // ECOUTE l'evenement 'change' sur le <input> id='quantity'
     let quantitySelector = document.getElementById('quantity')
     quantitySelector.addEventListener('change', function(event){
-        selectedQuantity = event.target.value
+        if (event.target.value <= 0){
+            selectedQuantity = 0
+        } else{
+            selectedQuantity = event.target.value
+        }
     })
 
     // ECOUTE l'evenement 'click' sur <button> id='addToCart'
@@ -138,10 +140,8 @@ function main(articleArray){
             };
             add2Cart(selectedProduct) // Ajout du produit dans le panier (localstorage)
         } else {
-            window.alert("Veuillez selectionner une couleure ainsi qu'une quantité")
+            window.alert("Veuillez sélectionner une couleur ainsi qu'une quantité")
         }
-
-        
     })
 }
 
@@ -149,3 +149,8 @@ function main(articleArray){
 fetch('http://localhost:3000/api/products/')
     .then(res => res.json())
     .then(data => main(data))
+
+    //fetch.then().then().catch()
+
+    // if (res.ok){
+        //...
