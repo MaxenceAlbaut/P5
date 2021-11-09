@@ -88,7 +88,7 @@ function add2Cart(product){
             localStorage.setItem("product", JSON.stringify(storedProducts)) // Re-initialise la valeure de la clé 'product'
         }
         
-    } else{ // AJOUT DU PRODUIT DANS LE PANIER (storedProducts)
+    } else { // AJOUT DU PRODUIT DANS LE PANIER (storedProducts)
         storedProducts = []
         storedProducts.push(product) // Insere le nouveau produit dans le panier
         localStorage.setItem("product", JSON.stringify(storedProducts)) // Re-initialise la valeure de la clé 'product'
@@ -119,7 +119,9 @@ function main(articleArray){
     quantitySelector.addEventListener('change', function(event){
         if (event.target.value <= 0){
             selectedQuantity = 0
-        } else{
+        } else if (event.target.value > 100){
+            selectedQuantity = 100
+        } else {
             selectedQuantity = event.target.value
         }
     })

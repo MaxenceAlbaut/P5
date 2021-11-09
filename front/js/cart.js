@@ -64,7 +64,7 @@ function listenCartQuantity(cart){
         itemsQuantity[i].addEventListener('change', function (event){
             if (event.target.value <= 0){
                 cart[i].quantity = 0
-            } else{
+            } else {
                 cart[i].quantity = event.target.value
             }
             document.querySelectorAll('.cart__item__content__settings__quantity p')[i].innerHTML = `Qté : ${cart[i].quantity}`
@@ -116,12 +116,23 @@ function sortCart(array){
     });
 }
 
+function maxQty(array){
+    
+    for (let i = 0 ; i < array.length ; i++){
+        if (array[i].quantity > 100){
+            array[i].quantity = 100
+        }
+    }
+    localStorage.setItem("product", JSON.stringify(array))
+}
+
 function main(){
 
     let cart = JSON.parse(localStorage.getItem('product'))
 
     if (cart){
         sortCart(cart) // Ordonne le panier
+        maxQty(cart) // Vérification de la quantité maximum
         displayCart(cart) // Affiche le recapitulatif du panier a partir du localstorage
 
         // Ecoute les modifications (changement de qte et suppression)
