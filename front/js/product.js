@@ -58,6 +58,7 @@ function isAlreadyStored(storedProducts, product){
         if (storedProducts[l].id == product.id && storedProducts[l].color == product.color){ // SI produit trouvé dans le panier
             storedProducts[l].quantity = parseInt(storedProducts[l].quantity, 10) + parseInt(product.quantity, 10) // Modifie la qte
             if (storedProducts[l].quantity > 100){
+                window.alert("Quantité maximale atteinte pour ce produit")
                 storedProducts[l].quantity = 100
             }
             localStorage.setItem("product", JSON.stringify(storedProducts)) // // Modifie le localstorage
