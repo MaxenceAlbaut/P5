@@ -99,7 +99,7 @@ document.getElementById('order').addEventListener('click', function (event){
                 return res.json()
             })
                 .then(function (data){
-                    //localStorage.clear() // Suppression des articles dans le panier
+                    localStorage.clear() // Suppression des articles dans le panier
                     window.location.href = "./confirmation.html?" + data.orderId // Redirection vers la page de confirmation
                 })
                     .catch(function(err){
