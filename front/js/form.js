@@ -20,39 +20,48 @@ function getProductIds (cart){
 // Vérification des champs du formulaire, affiche un message d'alerte si le champ est incorrecte
 function verifyFormFields(contactObject, event){
 
-    if(!/^[a-zA-Z]+$/.test(contactObject.firstName)){
-        window.alert("Saisie de votre Prénom incorrecte")
+    let isValid = true
+    if(!/^[a-z ,.'-]+$/i.test(contactObject.firstName)){
+        document.getElementById('firstNameErrorMsg').innerHTML = "Saisie de votre Prénom incorrecte"
         event.preventDefault()
         event.stopPropagation()
-        document.getElementById('firstName').focus()
-        return 0
-    } else if (!/^[a-zA-Z]+$/.test(contactObject.lastName)){
-        window.alert("Saisie de votre Nom incorrecte")
-        event.preventDefault()
-        event.stopPropagation()
-        document.getElementById('lastName').focus()
-        return 0
-    } else if (!/^[a-zA-Z0-9\s,.'-]{3,}$/.test(contactObject.address)){
-        window.alert("Saisie de votre Adresse incorrecte")
-        event.preventDefault()
-        event.stopPropagation()
-        document.getElementById('address').focus()
-        return 0
-    } else if (!/^[a-zA-Z]+$/.test(contactObject.city)){
-        window.alert("Saisie de votre Ville incorrecte")
-        event.preventDefault()
-        event.stopPropagation()
-        document.getElementById('city').focus()
-        return 0
-    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(contactObject.email)){
-        window.alert("Saisie de votre Email incorrecte")
-        event.preventDefault()
-        event.stopPropagation()
-        document.getElementById('email').focus()
-        return 0
+        isValid = false
     } else {
-        return 1
-    }       
+        document.getElementById('firstNameErrorMsg').innerHTML = ""
+    }
+    if (!/^[a-z ,.'-]+$/i.test(contactObject.lastName)){
+        document.getElementById('lastNameErrorMsg').innerHTML = "Saisie de votre Nom incorrecte"
+        event.preventDefault()
+        event.stopPropagation()
+        isValid = false
+    } else {
+        document.getElementById('lastNameErrorMsg').innerHTML = ""
+    }
+    if (!/^[a-zA-Z0-9\s,.'-]{3,}$/.test(contactObject.address)){
+        document.getElementById('addressErrorMsg').innerHTML = "Saisie de votre Adresse incorrecte"
+        event.preventDefault()
+        event.stopPropagation()
+        isValid = false
+    } else {
+        document.getElementById('addressErrorMsg').innerHTML = ""
+    }
+    if (!/^[a-zA-Z]+$/.test(contactObject.city)){
+        document.getElementById('cityErrorMsg').innerHTML = "Saisie de votre Ville incorrecte"
+        event.preventDefault()
+        event.stopPropagation()
+        isValid = false
+    } else {
+        document.getElementById('cityErrorMsg').innerHTML = ""
+    }
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(contactObject.email)){
+        document.getElementById('emailErrorMsg').innerHTML = "Saisie de votre Email incorrecte"
+        event.preventDefault()
+        event.stopPropagation()
+        isValid = false
+    } else {
+        document.getElementById('emailErrorMsg').innerHTML = ""
+    }
+    return isValid
 }
 
 // Eventlisteners des champs du formulaire - modifie les valeurs de l'objet contact
@@ -99,8 +108,8 @@ document.getElementById('order').addEventListener('click', function (event){
                 return res.json()
             })
                 .then(function (data){
-                    localStorage.clear() // Suppression des articles dans le panier
-                    window.location.href = "./confirmation.html?" + data.orderId // Redirection vers la page de confirmation
+                    //localStorage.clear() // Suppression des articles dans le panier
+                    window.location.href = "./confirmation.html?orderId=" + data.orderId // Redirection vers la page de confirmation
                 })
                     .catch(function(err){
                         console.log(err)
